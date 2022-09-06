@@ -111,6 +111,21 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
   ) {
     completionHandler([.list, .sound])
   }
+
+  func userNotificationCenter(
+    _ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse,
+    withCompletionHandler completionHandler: @escaping () -> Void
+  ) {
+    let userInfo = response.notification.request.content.userInfo
+    if let projectUrl = userInfo["projectUrl"] as? String,
+      let pipelineId = userInfo["pipelineId"] as? String
+    {
+      let pipelineURL = URL(string: "\(projectUrl)/-/pipelines/\(pipelineId)")
+      guard let url = pipelineURL else { return }
+      NSWorkspace.shared.open(url)
+    }
+
+  }
 }
 
 let aboutViewVisibility = AboutViewVisibility(showLicense: false)

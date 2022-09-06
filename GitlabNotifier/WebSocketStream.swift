@@ -47,7 +47,7 @@ enum WebSocketError: Error {
 }
 
 extension URLSessionWebSocketTask.Message {
-  func message() throws -> String {
+  func message() throws -> PipelineEvent {
     switch self {
     case .string(let json):
       let decoder = JSONDecoder()
@@ -56,11 +56,22 @@ extension URLSessionWebSocketTask.Message {
       }
       logger.log(String(data: data, encoding: .utf8) ?? "nil")
       let message = try decoder.decode(Welcome.self, from: data)
-      return message.project.name + " " + message.objectAttributes.status
+      return PipelineEvent(
+        pipelineId: message.objectAttributes.id, projectName: message.project.name,
+        projectId: message.project.id, status: message.objectAttributes.status,
+        projectUrl: message.project.webURL)
     case .data:
       throw WebSocketError.invalidFormat
     @unknown default:
       throw WebSocketError.invalidFormat
     }
   }
+}
+
+struct PipelineEvent {
+  let pipelineId: Int
+  let projectName: String
+  let projectId: Int
+  let status: String
+  let projectUrl: String
 }
