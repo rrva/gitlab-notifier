@@ -19,19 +19,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     un.delegate = self
 
-    if(prefsView.userSettings.backendURL == "") {
+    if prefsView.userSettings.backendURL == "" {
       didTapPrefs()
     } else {
       pipelineListener.start(url: prefsView.userSettings.backendURL)
     }
 
-
-
   }
-
-
-
-
 
   func setupMenus() {
     let menu = NSMenu()
@@ -54,7 +48,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let aboutMenuItem = NSMenuItem(
       title: "About", action: #selector(didTapAbout), keyEquivalent: "a")
     menu.addItem(aboutMenuItem)
-
 
     menu.addItem(
       NSMenuItem(title: "Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
@@ -88,10 +81,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   @objc func didTapPrefs() {
     if prefsWindowController == nil {
-      prefsWindowController = WindowController(hostedView: prefsView, onClose: { [weak self] in
-        guard let self = self else { return }
-        self.pipelineListener.start(url: self.prefsView.userSettings.backendURL)
-      })
+      prefsWindowController = WindowController(
+        hostedView: prefsView,
+        onClose: { [weak self] in
+          guard let self = self else { return }
+          self.pipelineListener.start(url: self.prefsView.userSettings.backendURL)
+        })
     }
     prefsWindowController.showWindow(nil)
     NSApp.activate(ignoringOtherApps: true)
@@ -107,12 +102,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     return true
   }
 
-
 }
 
-
 extension AppDelegate: UNUserNotificationCenterDelegate {
-  func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+  func userNotificationCenter(
+    _ center: UNUserNotificationCenter, willPresent notification: UNNotification,
+    withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+  ) {
     completionHandler([.list, .sound])
   }
 }

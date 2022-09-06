@@ -29,7 +29,6 @@ class WindowController<HostedView: View>: NSWindowController, NSWindowDelegate {
 
   private func windowDidMiniaturize(notification _: NSNotification) {}
 
-  
   func windowWillClose(_ notification: Notification) {
     onClose?()
     aboutViewVisibility.showLicense = false

@@ -4,9 +4,9 @@ import SwiftUI
 @available(macOS 12.0, *)
 struct PrefsView: View {
   @ObservedObject var userSettings = UserSettings()
-  private let pipelineListener : PipelineListener
+  private let pipelineListener: PipelineListener
   private var logger: Logger
-  init(logger: Logger, pipelineListener : PipelineListener) {
+  init(logger: Logger, pipelineListener: PipelineListener) {
     self.logger = logger
     self.pipelineListener = pipelineListener
   }
@@ -29,6 +29,7 @@ struct PrefsView: View {
         Spacer().frame(idealHeight: 0)
       }
     }.frame(minWidth: 120, maxWidth: .infinity, minHeight: 150, maxHeight: 150).padding(24)
+
   }
 }
 
