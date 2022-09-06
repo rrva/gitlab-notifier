@@ -59,7 +59,8 @@ extension URLSessionWebSocketTask.Message {
       return PipelineEvent(
         pipelineId: message.objectAttributes.id, projectName: message.project.name,
         projectId: message.project.id, status: message.objectAttributes.status,
-        projectUrl: message.project.webURL)
+        projectUrl: message.project.webURL,
+        commitMessage: message.commit.message)
     case .data:
       throw WebSocketError.invalidFormat
     @unknown default:
@@ -74,4 +75,5 @@ struct PipelineEvent {
   let projectId: Int
   let status: String
   let projectUrl: String
+  let commitMessage: String
 }

@@ -8,12 +8,14 @@ class PipelineListener {
   var task: Task<Void, Error>?
 
   func notify(msg: PipelineEvent) {
-
+    if(msg.status == "pending") {
+      return
+    }
     un.getNotificationSettings { settings in
       if settings.authorizationStatus == .authorized {
         let content = UNMutableNotificationContent()
-        content.title = "Gitlab pipeline"
-        content.body = msg.projectName + " " + msg.status
+        content.title = "Pipeline for " + msg.projectName + " " + msg.status
+        content.body = "Commit: \(msg.commitMessage)"
         content.sound = UNNotificationSound.default
         content.interruptionLevel = UNNotificationInterruptionLevel.active
         content.userInfo = ["projectUrl": "\(msg.projectUrl)", "pipelineId": "\(msg.pipelineId)"]

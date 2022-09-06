@@ -35,7 +35,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     if let button = statusItem.button {
       button.image = NSImage(
-        systemSymbolName: "ivfluid.bag", accessibilityDescription: "0")
+        systemSymbolName: "hands.sparkles", accessibilityDescription: "0")
     }
 
     let logsMenuItem = NSMenuItem(title: "Logs", action: #selector(didTapLogs), keyEquivalent: "l")
