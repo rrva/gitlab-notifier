@@ -18,7 +18,7 @@ class PipelineListener {
         content.sound = UNNotificationSound.default
 
         let id = "cheese"
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0, repeats: false)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
         self.un.add(request) { (error) in
           if error != nil { logger.log(error?.localizedDescription ?? "u") }
