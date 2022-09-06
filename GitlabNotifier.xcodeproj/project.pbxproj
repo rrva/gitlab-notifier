@@ -8,18 +8,25 @@
 
 /* Begin PBXBuildFile section */
 		1744802428C7524000A48CE6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1744802328C7524000A48CE6 /* AppDelegate.swift */; };
-		1744802628C7524000A48CE6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1744802528C7524000A48CE6 /* ViewController.swift */; };
 		1744802828C7524100A48CE6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1744802728C7524100A48CE6 /* Assets.xcassets */; };
-		1744802B28C7524100A48CE6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1744802928C7524100A48CE6 /* Main.storyboard */; };
+		1744803328C7542D00A48CE6 /* pipeline.png in Resources */ = {isa = PBXBuildFile; fileRef = 1744803228C7542D00A48CE6 /* pipeline.png */; };
+		1744803628C757C400A48CE6 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1744803528C757C400A48CE6 /* main.swift */; };
+		1744803828C7585D00A48CE6 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1744803728C7585D00A48CE6 /* AboutView.swift */; };
+		1744803A28C758A100A48CE6 /* LicenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1744803928C758A100A48CE6 /* LicenseView.swift */; };
+		1744803C28C7593200A48CE6 /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1744803B28C7593200A48CE6 /* WindowController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1744802028C7524000A48CE6 /* GitlabNotifier.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitlabNotifier.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1744802328C7524000A48CE6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1744802528C7524000A48CE6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		1744802728C7524100A48CE6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		1744802A28C7524100A48CE6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1744802C28C7524100A48CE6 /* GitlabNotifier.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GitlabNotifier.entitlements; sourceTree = "<group>"; };
+		1744803228C7542D00A48CE6 /* pipeline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pipeline.png; sourceTree = "<group>"; };
+		1744803428C7557000A48CE6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		1744803528C757C400A48CE6 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		1744803728C7585D00A48CE6 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		1744803928C758A100A48CE6 /* LicenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseView.swift; sourceTree = "<group>"; };
+		1744803B28C7593200A48CE6 /* WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,11 +59,15 @@
 		1744802228C7524000A48CE6 /* GitlabNotifier */ = {
 			isa = PBXGroup;
 			children = (
+				1744803428C7557000A48CE6 /* Info.plist */,
+				1744803228C7542D00A48CE6 /* pipeline.png */,
 				1744802328C7524000A48CE6 /* AppDelegate.swift */,
-				1744802528C7524000A48CE6 /* ViewController.swift */,
 				1744802728C7524100A48CE6 /* Assets.xcassets */,
-				1744802928C7524100A48CE6 /* Main.storyboard */,
 				1744802C28C7524100A48CE6 /* GitlabNotifier.entitlements */,
+				1744803528C757C400A48CE6 /* main.swift */,
+				1744803728C7585D00A48CE6 /* AboutView.swift */,
+				1744803928C758A100A48CE6 /* LicenseView.swift */,
+				1744803B28C7593200A48CE6 /* WindowController.swift */,
 			);
 			path = GitlabNotifier;
 			sourceTree = "<group>";
@@ -119,8 +130,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1744803328C7542D00A48CE6 /* pipeline.png in Resources */,
 				1744802828C7524100A48CE6 /* Assets.xcassets in Resources */,
-				1744802B28C7524100A48CE6 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,23 +142,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1744802628C7524000A48CE6 /* ViewController.swift in Sources */,
+				1744803628C757C400A48CE6 /* main.swift in Sources */,
+				1744803C28C7593200A48CE6 /* WindowController.swift in Sources */,
+				1744803828C7585D00A48CE6 /* AboutView.swift in Sources */,
+				1744803A28C758A100A48CE6 /* LicenseView.swift in Sources */,
 				1744802428C7524000A48CE6 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		1744802928C7524100A48CE6 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1744802A28C7524100A48CE6 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1744802D28C7524100A48CE6 /* Debug */ = {
@@ -275,15 +278,15 @@
 				DEVELOPMENT_TEAM = 3563RJWBQP;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GitlabNotifier/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = se.rrva.OpenConnectUI2.GitlabNotifier;
+				PRODUCT_BUNDLE_IDENTIFIER = se.rrva.GitlabNotifier;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -302,15 +305,15 @@
 				DEVELOPMENT_TEAM = 3563RJWBQP;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GitlabNotifier/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = se.rrva.OpenConnectUI2.GitlabNotifier;
+				PRODUCT_BUNDLE_IDENTIFIER = se.rrva.GitlabNotifier;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
