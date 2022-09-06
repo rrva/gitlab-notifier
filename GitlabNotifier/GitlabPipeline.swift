@@ -9,7 +9,7 @@ import Foundation
 struct Welcome: Codable {
   let objectKind: String
   let objectAttributes: ObjectAttributes
-  let mergeRequest: JSONNull?
+  let mergeRequest: String?
   let user: User
   let project: Project
   let commit: Commit
@@ -27,14 +27,13 @@ struct Welcome: Codable {
 struct Build: Codable {
   let id: Int
   let stage, name, status, createdAt: String
-  let startedAt, finishedAt: String
-  let duration, queuedDuration: Double
+  let startedAt: String?
+  let finishedAt: String?
+  let duration, queuedDuration: Double?
   let when: String
   let manual, allowFailure: Bool
   let user: User
-  let runner: Runner
-  let artifactsFile: ArtifactsFile
-  let environment: JSONNull?
+  let runner: Runner?
 
   enum CodingKeys: String, CodingKey {
     case id, stage, name, status
@@ -46,14 +45,7 @@ struct Build: Codable {
     case when, manual
     case allowFailure = "allow_failure"
     case user, runner
-    case artifactsFile = "artifacts_file"
-    case environment
   }
-}
-
-// MARK: - ArtifactsFile
-struct ArtifactsFile: Codable {
-  let filename, size: JSONNull?
 }
 
 // MARK: - Runner
@@ -108,8 +100,9 @@ struct ObjectAttributes: Codable {
   let sha, beforeSHA, source, status: String
   let detailedStatus: String
   let stages: [String]
-  let createdAt, finishedAt: String
-  let duration, queuedDuration: Int
+  let createdAt: String
+  let finishedAt: String?
+  let duration, queuedDuration: Int?
   let variables: [JSONAny]
 
   enum CodingKeys: String, CodingKey {
@@ -131,13 +124,13 @@ struct Project: Codable {
   let id: Int
   let name, projectDescription: String
   let webURL: String
-  let avatarURL: JSONNull?
+  let avatarURL: String?
   let gitSSHURL: String
   let gitHTTPURL: String
   let namespace: String
   let visibilityLevel: Int
   let pathWithNamespace, defaultBranch: String
-  let ciConfigPath: JSONNull?
+  let ciConfigPath: String?
 
   enum CodingKeys: String, CodingKey {
     case id, name
