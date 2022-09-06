@@ -1,13 +1,37 @@
 import Cocoa
+import Foundation
+import UserNotifications
 
 class AppDelegate: NSObject, NSApplicationDelegate {
 
   private var statusItem: NSStatusItem!
   var aboutWindowController: NSWindowController!
+  var prefsWindowController: NSWindowController!
+  var logWindowController: NSWindowController!
+  let pipelineListener = PipelineListener()
+
+  lazy var prefsView = PrefsView(logger: logger, pipelineListener: pipelineListener)
+
+  let un = UNUserNotificationCenter.current()
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     setupMenus()
+
+    un.delegate = self
+
+    if(prefsView.userSettings.backendURL == "") {
+      didTapPrefs()
+    } else {
+      pipelineListener.start(url: prefsView.userSettings.backendURL)
+    }
+
+
+
   }
+
+
+
+
 
   func setupMenus() {
     let menu = NSMenu()
@@ -19,6 +43,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       button.image = NSImage(
         systemSymbolName: "ivfluid.bag", accessibilityDescription: "0")
     }
+
+    let logsMenuItem = NSMenuItem(title: "Logs", action: #selector(didTapLogs), keyEquivalent: "l")
+    menu.addItem(logsMenuItem)
+
+    let prefsMenuItem = NSMenuItem(
+      title: "Preferences", action: #selector(didTapPrefs), keyEquivalent: "p")
+    menu.addItem(prefsMenuItem)
 
     let aboutMenuItem = NSMenuItem(
       title: "About", action: #selector(didTapAbout), keyEquivalent: "a")
@@ -43,6 +74,31 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     self.aboutWindowController.window?.makeKeyAndOrderFront(nil)
   }
 
+  @objc func didTapLogs() {
+    if logWindowController == nil {
+      logWindowController = WindowController(
+        hostedView: LogView(logs: logger.logs), resizable: true)
+    }
+    logWindowController.showWindow(nil)
+    logWindowController.window?.center()
+
+    NSApp.activate(ignoringOtherApps: true)
+    logWindowController.window?.makeKeyAndOrderFront(nil)
+  }
+
+  @objc func didTapPrefs() {
+    if prefsWindowController == nil {
+      prefsWindowController = WindowController(hostedView: prefsView, onClose: { [weak self] in
+        guard let self = self else { return }
+        self.pipelineListener.start(url: self.prefsView.userSettings.backendURL)
+      })
+    }
+    prefsWindowController.showWindow(nil)
+    NSApp.activate(ignoringOtherApps: true)
+    self.prefsWindowController.window?.center()
+    self.prefsWindowController.window?.makeKeyAndOrderFront(nil)
+  }
+
   func applicationWillTerminate(_ aNotification: Notification) {
 
   }
@@ -54,5 +110,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 }
 
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+  func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    completionHandler([.list, .sound])
+  }
+}
+
 let aboutViewVisibility = AboutViewVisibility(showLicense: false)
 let about = About()
+let logger = Logger()

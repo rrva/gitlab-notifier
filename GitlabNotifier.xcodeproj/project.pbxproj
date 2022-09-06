@@ -14,6 +14,11 @@
 		1744803828C7585D00A48CE6 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1744803728C7585D00A48CE6 /* AboutView.swift */; };
 		1744803A28C758A100A48CE6 /* LicenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1744803928C758A100A48CE6 /* LicenseView.swift */; };
 		1744803C28C7593200A48CE6 /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1744803B28C7593200A48CE6 /* WindowController.swift */; };
+		1744803E28C7658500A48CE6 /* PrefsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1744803D28C7658500A48CE6 /* PrefsView.swift */; };
+		1744804028C765B900A48CE6 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1744803F28C765B900A48CE6 /* LogView.swift */; };
+		1744804428C786FD00A48CE6 /* WebSocketStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1744804328C786FD00A48CE6 /* WebSocketStream.swift */; };
+		1744804628C7896B00A48CE6 /* GitlabPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1744804528C7896B00A48CE6 /* GitlabPipeline.swift */; };
+		1744804828C7982600A48CE6 /* PipelineListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1744804728C7982600A48CE6 /* PipelineListener.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +32,11 @@
 		1744803728C7585D00A48CE6 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		1744803928C758A100A48CE6 /* LicenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseView.swift; sourceTree = "<group>"; };
 		1744803B28C7593200A48CE6 /* WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowController.swift; sourceTree = "<group>"; };
+		1744803D28C7658500A48CE6 /* PrefsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefsView.swift; sourceTree = "<group>"; };
+		1744803F28C765B900A48CE6 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
+		1744804328C786FD00A48CE6 /* WebSocketStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketStream.swift; sourceTree = "<group>"; };
+		1744804528C7896B00A48CE6 /* GitlabPipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitlabPipeline.swift; sourceTree = "<group>"; };
+		1744804728C7982600A48CE6 /* PipelineListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineListener.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +78,11 @@
 				1744803728C7585D00A48CE6 /* AboutView.swift */,
 				1744803928C758A100A48CE6 /* LicenseView.swift */,
 				1744803B28C7593200A48CE6 /* WindowController.swift */,
+				1744803D28C7658500A48CE6 /* PrefsView.swift */,
+				1744803F28C765B900A48CE6 /* LogView.swift */,
+				1744804328C786FD00A48CE6 /* WebSocketStream.swift */,
+				1744804528C7896B00A48CE6 /* GitlabPipeline.swift */,
+				1744804728C7982600A48CE6 /* PipelineListener.swift */,
 			);
 			path = GitlabNotifier;
 			sourceTree = "<group>";
@@ -145,8 +160,13 @@
 				1744803628C757C400A48CE6 /* main.swift in Sources */,
 				1744803C28C7593200A48CE6 /* WindowController.swift in Sources */,
 				1744803828C7585D00A48CE6 /* AboutView.swift in Sources */,
+				1744804428C786FD00A48CE6 /* WebSocketStream.swift in Sources */,
+				1744803E28C7658500A48CE6 /* PrefsView.swift in Sources */,
 				1744803A28C758A100A48CE6 /* LicenseView.swift in Sources */,
+				1744804628C7896B00A48CE6 /* GitlabPipeline.swift in Sources */,
+				1744804828C7982600A48CE6 /* PipelineListener.swift in Sources */,
 				1744802428C7524000A48CE6 /* AppDelegate.swift in Sources */,
+				1744804028C765B900A48CE6 /* LogView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
