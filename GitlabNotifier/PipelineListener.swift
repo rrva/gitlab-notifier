@@ -3,12 +3,27 @@ import UserNotifications
 
 class PipelineListener {
 
+  var userSettings: UserSettings
+
+  init(userSettings: UserSettings) {
+    self.userSettings = userSettings
+  }
+
   let un = UNUserNotificationCenter.current()
 
   var task: Task<Void, Error>?
 
   func notify(msg: PipelineEvent) {
     if(msg.status == "pending") {
+      logger.log("ignoring pending status for \(msg.projectName)")
+      return
+    }
+    if(userSettings.namespace != msg.namespace) {
+      logger.log("notification for namespace \(msg.namespace) is no \(userSettings.namespace), ignoring")
+      return
+    }
+    if(userSettings.ignore == msg.projectName) {
+      logger.log("notification for project \(msg.projectName) is \(userSettings.ignore), ignoring")
       return
     }
     un.getNotificationSettings { settings in
@@ -31,7 +46,7 @@ class PipelineListener {
 
   func connectionFailed(url: String) {
     let oneSecond = TimeInterval(1_000_000_000)
-    let delay = UInt64(oneSecond * 10)
+    let delay = UInt64(oneSecond * 1)
     Task {
       try await Task.sleep(nanoseconds: delay)
       await logger.log("Retry connect")

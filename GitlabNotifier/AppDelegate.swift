@@ -8,9 +8,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   var aboutWindowController: NSWindowController!
   var prefsWindowController: NSWindowController!
   var logWindowController: NSWindowController!
-  let pipelineListener = PipelineListener()
+  let userSettings = UserSettings()
+  lazy var pipelineListener = PipelineListener(userSettings: userSettings)
 
-  lazy var prefsView = PrefsView(logger: logger, pipelineListener: pipelineListener)
+  lazy var prefsView = PrefsView(logger: logger, userSettings: userSettings)
 
   let un = UNUserNotificationCenter.current()
 
@@ -131,3 +132,4 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 let aboutViewVisibility = AboutViewVisibility(showLicense: false)
 let about = About()
 let logger = Logger()
+
