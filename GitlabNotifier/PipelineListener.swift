@@ -69,8 +69,8 @@ class PipelineListener {
             }
           } catch {
             await logger.log("Oops something didn't go right: \(error)")
+            self?.connectionFailed(url: url)
           }
-          self?.connectionFailed(url: url)
         }
 
       } else if !authorized {
