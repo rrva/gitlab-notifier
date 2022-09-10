@@ -11,6 +11,15 @@ class WebSocketStream: AsyncSequence {
 
   init(url: String, session: URLSession = URLSession.shared) {
     socket = session.webSocketTask(with: URL(string: url)!)
+    socket.sendPing(pongReceiveHandler: { error in
+      if error != nil {
+        logger.log("Pong received with error \(String(describing: error))")
+      } else {
+        logger.log("Pong received")
+      }
+
+    })
+
     stream = AsyncThrowingStream { continuation in
       self.continuation = continuation
       self.continuation?.onTermination = { @Sendable [socket] _ in
@@ -32,6 +41,7 @@ class WebSocketStream: AsyncSequence {
     socket.receive { [unowned self] result in
       switch result {
       case .success(let message):
+        logger.log("got socket message")
         continuation?.yield(message)
         listenForMessages()
       case .failure(let error):
@@ -47,6 +57,7 @@ enum WebSocketError: Error {
 }
 
 extension URLSessionWebSocketTask.Message {
+
   func message() throws -> PipelineEvent {
     switch self {
     case .string(let json):
@@ -54,6 +65,7 @@ extension URLSessionWebSocketTask.Message {
       guard let data = json.data(using: .utf8) else {
         throw WebSocketError.invalidFormat
       }
+
       logger.log(String(data: data, encoding: .utf8) ?? "nil")
       let message = try decoder.decode(Welcome.self, from: data)
       return PipelineEvent(
@@ -61,7 +73,10 @@ extension URLSessionWebSocketTask.Message {
         projectId: message.project.id, status: message.objectAttributes.status,
         projectUrl: message.project.webURL,
         commitMessage: message.commit.message,
-        namespace: message.project.namespace)
+        namespace: message.project.namespace,
+        timestamp: iso8601Formatter.date(from: message.receivedAt) ?? Date(),
+        epoch: message.epoch,
+        seq: message.seq)
     case .data:
       throw WebSocketError.invalidFormat
     @unknown default:
@@ -69,6 +84,14 @@ extension URLSessionWebSocketTask.Message {
     }
   }
 }
+
+func createISO8601Formatter() -> ISO8601DateFormatter {
+  let formatter = ISO8601DateFormatter()
+  formatter.formatOptions.insert(.withFractionalSeconds)
+  return formatter
+}
+
+let iso8601Formatter = createISO8601Formatter()
 
 struct PipelineEvent {
   let pipelineId: Int
@@ -78,4 +101,7 @@ struct PipelineEvent {
   let projectUrl: String
   let commitMessage: String
   let namespace: String
+  let timestamp: Date
+  let epoch: Int
+  let seq: Int
 }

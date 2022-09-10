@@ -58,12 +58,13 @@ class UserSettings: ObservableObject {
   init() {
     backendURL =
       UserDefaults.standard.object(forKey: "backendURL") as? String
-      ?? ""
+      ?? "wss://pipeline-notifier.example.com/events"
     namespace =
-    UserDefaults.standard.object(forKey: "namespace") as? String
+      UserDefaults.standard.object(forKey: "namespace") as? String
       ?? "videocollab"
-    ignore = UserDefaults.standard.object(forKey: "ignore") as? String
-    ?? "Junk"
+    ignore =
+      UserDefaults.standard.object(forKey: "ignore") as? String
+      ?? "Junk"
 
   }
 }

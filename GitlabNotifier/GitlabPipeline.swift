@@ -14,12 +14,16 @@ struct Welcome: Codable {
   let project: Project
   let commit: Commit
   let builds: [Build]
+  let receivedAt: String
+  let seq: Int
+  let epoch: Int
 
   enum CodingKeys: String, CodingKey {
     case objectKind = "object_kind"
     case objectAttributes = "object_attributes"
     case mergeRequest = "merge_request"
-    case user, project, commit, builds
+    case user, project, commit, builds, seq, epoch
+    case receivedAt = "received_at"
   }
 }
 
