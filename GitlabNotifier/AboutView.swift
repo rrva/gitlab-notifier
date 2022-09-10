@@ -65,6 +65,8 @@ let aboutText = Text(
   A notifier for Gitlab pipelines
 
   © 2022 Ragnar Rova
+
+  [Plumbing icons created by Eucalyp - Flaticon](https://www.flaticon.com/free-icons/plumbing "plumbing icons")
   """
 )
 
