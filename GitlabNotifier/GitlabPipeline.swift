@@ -5,8 +5,21 @@
 
 import Foundation
 
-// MARK: - Welcome
-struct Welcome: Codable {
+// MARK: - GitlabMessage
+
+struct WebsocketMessage: Codable {
+  let gitlab: GitlabMessage?
+  let receivedAt: String
+  let seq: Int
+  let epoch: Int
+
+  enum CodingKeys: String, CodingKey {
+    case gitlab, seq, epoch
+    case receivedAt = "received_at"
+  }
+}
+
+struct GitlabMessage: Codable {
   let objectKind: String
   let objectAttributes: ObjectAttributes
   let mergeRequest: String?
@@ -14,16 +27,12 @@ struct Welcome: Codable {
   let project: Project
   let commit: Commit
   let builds: [Build]
-  let receivedAt: String
-  let seq: Int
-  let epoch: Int
 
   enum CodingKeys: String, CodingKey {
     case objectKind = "object_kind"
     case objectAttributes = "object_attributes"
     case mergeRequest = "merge_request"
-    case user, project, commit, builds, seq, epoch
-    case receivedAt = "received_at"
+    case user, project, commit, builds
   }
 }
 

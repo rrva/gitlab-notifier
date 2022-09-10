@@ -58,7 +58,7 @@ enum WebSocketError: Error {
 
 extension URLSessionWebSocketTask.Message {
 
-  func message() throws -> PipelineEvent {
+  func message() throws -> WebsocketEvent {
     switch self {
     case .string(let json):
       let decoder = JSONDecoder()
@@ -67,16 +67,26 @@ extension URLSessionWebSocketTask.Message {
       }
 
       logger.log(String(data: data, encoding: .utf8) ?? "nil")
-      let message = try decoder.decode(Welcome.self, from: data)
-      return PipelineEvent(
-        pipelineId: message.objectAttributes.id, projectName: message.project.name,
-        projectId: message.project.id, status: message.objectAttributes.status,
-        projectUrl: message.project.webURL,
-        commitMessage: message.commit.message,
-        namespace: message.project.namespace,
-        timestamp: iso8601Formatter.date(from: message.receivedAt) ?? Date(),
-        epoch: message.epoch,
-        seq: message.seq)
+      let message = try decoder.decode(WebsocketMessage.self, from: data)
+      if let msg = message.gitlab {
+        return WebsocketEvent(
+          msg: PipelineEvent(
+            pipelineId: msg.objectAttributes.id, projectName: msg.project.name,
+            projectId: msg.project.id, status: msg.objectAttributes.status,
+            projectUrl: msg.project.webURL,
+            commitMessage: msg.commit.message,
+            namespace: msg.project.namespace),
+          timestamp: iso8601Formatter.date(from: message.receivedAt) ?? Date(),
+          epoch: message.epoch,
+          seq: message.seq)
+      } else {
+        return WebsocketEvent(
+          msg: nil,
+          timestamp: iso8601Formatter.date(from: message.receivedAt) ?? Date(),
+          epoch: message.epoch,
+          seq: message.seq)
+      }
+
     case .data:
       throw WebSocketError.invalidFormat
     @unknown default:
@@ -93,6 +103,13 @@ func createISO8601Formatter() -> ISO8601DateFormatter {
 
 let iso8601Formatter = createISO8601Formatter()
 
+struct WebsocketEvent {
+  let msg: PipelineEvent?
+  let timestamp: Date
+  let epoch: Int
+  let seq: Int
+}
+
 struct PipelineEvent {
   let pipelineId: Int
   let projectName: String
@@ -101,7 +118,4 @@ struct PipelineEvent {
   let projectUrl: String
   let commitMessage: String
   let namespace: String
-  let timestamp: Date
-  let epoch: Int
-  let seq: Int
 }

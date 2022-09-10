@@ -48,19 +48,26 @@ class PipelineListener {
     }
   }
 
-  func notify(msg: PipelineEvent) {
-    if msg.epoch < self.currentEpoch {
-      logger.log("Discarding old message epoch \(msg.epoch) currentEpoch \(currentEpoch)")
+  func notify(event: WebsocketEvent) {
+    if let msg = event.msg {
+      pipelineStatuses[msg.projectName] = PipelineStatus(status: msg.status, timeStamp: Date())
+    }
+    if event.epoch == self.currentEpoch && self.latestReceivedSeq >= event.seq {
+      logger.log("ignoring old message. seq: \(event.seq)")
       return
     }
-    if msg.epoch > self.currentEpoch {
-      self.latestReceivedSeq = msg.seq
-      self.currentEpoch = msg.epoch
-    } else if msg.seq <= latestReceivedSeq {
-      logger.log("Discarding old message seq \(msg.seq)")
+    if event.epoch > self.currentEpoch {
+      self.currentEpoch = event.epoch
+    }
+    if event.epoch < self.currentEpoch {
+      logger.log("Discarding old message epoch \(event.epoch) currentEpoch \(currentEpoch)")
       return
     }
+    self.latestReceivedSeq = event.seq
 
+    guard let msg = event.msg else {
+      return
+    }
     if msg.status == "pending" {
       logger.log("ignoring pending status for \(msg.projectName)")
       return
@@ -74,7 +81,6 @@ class PipelineListener {
       logger.log("notification for project \(msg.projectName) is \(userSettings.ignore), ignoring")
       return
     }
-    pipelineStatuses[msg.projectName] = PipelineStatus(status: msg.status, timeStamp: Date())
     print("\(pipelineStatuses)")
     if pipelinesStillRunning() {
       if !animationRunning {
@@ -84,10 +90,6 @@ class PipelineListener {
     } else {
       DispatchQueue.main.async { self.stopAnimation() }
       animationRunning = false
-    }
-    if msg.timestamp.timeIntervalSinceNow < -10 {
-      logger.log("Discarding old message timestamp \(msg.timestamp)")
-      return
     }
     un.getNotificationSettings { settings in
       if settings.authorizationStatus == .authorized {
@@ -134,7 +136,7 @@ class PipelineListener {
         self.task = Task.detached(priority: .userInitiated) { [weak self] in
           do {
             for try await message in stream {
-              self?.notify(msg: try message.message())
+              self?.notify(event: try message.message())
             }
           } catch let error as NSError {
             if !(error.domain == "NSPOSIXErrorDomain" && error.code == 57) {
