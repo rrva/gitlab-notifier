@@ -9,7 +9,7 @@ class PipelineListener {
   var pipelineStatuses: [String: PipelineStatus]
   var animationRunning: Bool
   var currentEpoch: Int
-  var latestReceivedSeq: Int
+  var replayUntilSeq: Int
 
   init(userSettings: UserSettings, statusItem: NSStatusItem) {
     self.userSettings = userSettings
@@ -17,7 +17,7 @@ class PipelineListener {
     self.pipelineStatuses = [:]
     self.animationRunning = false
     self.currentEpoch = 0
-    self.latestReceivedSeq = 0
+    self.replayUntilSeq = 0
   }
 
   let un = UNUserNotificationCenter.current()
@@ -49,22 +49,20 @@ class PipelineListener {
   }
 
   func notify(event: WebsocketEvent) {
+    if event.msg == nil {
+      logger.log("Connected. Replay of old messages until seq \(event.seq)")
+      self.replayUntilSeq = event.seq
+      return
+    }
     if let msg = event.msg {
-      pipelineStatuses[msg.projectName] = PipelineStatus(status: msg.status, timeStamp: Date())
+      pipelineStatuses[msg.projectName] = PipelineStatus(
+        status: msg.status, timeStamp: event.timestamp)
     }
-    if event.epoch == self.currentEpoch && self.latestReceivedSeq >= event.seq {
-      logger.log("ignoring old message. seq: \(event.seq)")
+    logger.log("statuses: \(pipelineStatuses)")
+    if event.seq <= self.replayUntilSeq {
+      logger.log("not notifying for old message. seq: \(event.seq)")
       return
     }
-    if event.epoch > self.currentEpoch {
-      self.currentEpoch = event.epoch
-    }
-    if event.epoch < self.currentEpoch {
-      logger.log("Discarding old message epoch \(event.epoch) currentEpoch \(currentEpoch)")
-      return
-    }
-    self.latestReceivedSeq = event.seq
-
     guard let msg = event.msg else {
       return
     }
@@ -81,7 +79,7 @@ class PipelineListener {
       logger.log("notification for project \(msg.projectName) is \(userSettings.ignore), ignoring")
       return
     }
-    print("\(pipelineStatuses)")
+
     if pipelinesStillRunning() {
       if !animationRunning {
         DispatchQueue.main.async { self.animateStatusBar() }

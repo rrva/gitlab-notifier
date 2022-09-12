@@ -1,23 +1,19 @@
-// This file was generated from JSON Schema using quicktype, do not modify it directly.
-// To parse the JSON, add this file to your project and do:
-//
-//   let welcome = try? newJSONDecoder().decode(Welcome.self, from: jsonData)
-
 import Foundation
-
-// MARK: - GitlabMessage
 
 struct WebsocketMessage: Codable {
   let gitlab: GitlabMessage?
   let receivedAt: String
   let seq: Int
   let epoch: Int
+  let version: Int
 
   enum CodingKeys: String, CodingKey {
-    case gitlab, seq, epoch
+    case gitlab, seq, epoch, version
     case receivedAt = "received_at"
   }
 }
+
+// MARK: - GitlabMessage
 
 struct GitlabMessage: Codable {
   let objectKind: String
